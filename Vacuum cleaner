@@ -1,0 +1,62 @@
+from collections import deque
+environment = [
+    [0, 1, 0, 0],
+    [0, -1, 1, 0],
+    [0, 0, 0, 1],
+    [1, 0, 0, 0]
+]
+movements = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+initial_state = ((0, 0), tuple(tuple(row) for row in environment))
+def is_goal_state(state):
+    _, env = state
+    for row in env:
+        if 1 in row:
+            return False
+    return True
+def get_successors(state):
+    successors = []
+    (x, y), env = state
+    env = [list(row) for row in env]
+    
+    for move in movements:
+        new_x, new_y = x + move[0], y + move[1]
+        
+        if 0 <= new_x < len(env) and 0 <= new_y < len(env[0]) and env[new_x][new_y] != -1:
+            new_env = [row[:] for row in env]
+            new_env[new_x][new_y] = 0  
+            successors.append(((new_x, new_y), tuple(tuple(row) for row in new_env)))
+    
+    return successors
+def bfs(initial_state):
+    queue = deque([initial_state])
+    visited = set()
+    visited.add(initial_state)
+    parent = {initial_state: None}
+    
+    while queue:
+        current_state = queue.popleft()
+        if is_goal_state(current_state):
+            path = []
+            while current_state is not None:
+                path.append(current_state)
+                current_state = parent[current_state]
+            return path[::-1]
+        
+        for successor in get_successors(current_state):
+            if successor not in visited:
+                visited.add(successor)
+                parent[successor] = current_state
+                queue.append(successor)
+    
+    return None
+solution = bfs(initial_state)
+if solution:
+    print("Solution found:")
+    for step in solution:
+        position, env = step
+        print(f"Vacuum Cleaner Position: {position}")
+        print("Environment:")
+        for row in env:
+            print(row)
+else:
+    print("No solution found.")
