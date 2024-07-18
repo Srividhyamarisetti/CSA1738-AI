@@ -1,0 +1,26 @@
+def dfs(graph, start_node):
+    visited = set()  
+    dfs_order = []  
+    
+    def dfs_recursive(node):
+        if node not in visited:
+            visited.add(node)  
+            dfs_order.append(node)  
+            for neighbor in graph[node]:
+                dfs_recursive(neighbor)
+    
+    dfs_recursive(start_node)
+    return dfs_order
+graph = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D', 'E'],
+    'C': ['A', 'F', 'G'],
+    'D': ['B'],
+    'E': ['B', 'H'],
+    'F': ['C'],
+    'G': ['C'],
+    'H': ['E']
+}
+start_node = 'A'
+dfs_traversal = dfs(graph, start_node)
+print("DFS Traversal Order:", dfs_traversal)
