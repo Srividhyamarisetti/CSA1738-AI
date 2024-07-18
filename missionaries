@@ -1,0 +1,59 @@
+from collections import deque
+
+def is_valid_state(state):
+    m_left, c_left, boat, m_right, c_right = state
+    if m_left < 0 or c_left < 0 or m_right < 0 or c_right < 0:
+        return False
+    if m_left > 0 and m_left < c_left:
+        return False
+    if m_right > 0 and m_right < c_right:
+        return False
+    return True
+
+def get_successors(state):
+    successors = []
+    m_left, c_left, boat, m_right, c_right = state
+    if boat == 'left':
+        possible_moves = [(2, 0), (0, 2), (1, 1), (1, 0), (0, 1)]
+        for m, c in possible_moves:
+            new_state = (m_left - m, c_left - c, 'right', m_right + m, c_right + c)
+            if is_valid_state(new_state):
+                successors.append(new_state)
+    else:
+        possible_moves = [(2, 0), (0, 2), (1, 1), (1, 0), (0, 1)]
+        for m, c in possible_moves:
+            new_state = (m_left + m, c_left + c, 'left', m_right - m, c_right - c)
+            if is_valid_state(new_state):
+                successors.append(new_state)
+    return successors
+
+def bfs(initial_state, goal_state):
+    queue = deque([initial_state])
+    visited = set()
+    visited.add(initial_state)
+    parent = {initial_state: None}
+    
+    while queue:
+        current_state = queue.popleft()
+        if current_state == goal_state:
+            path = []
+            while current_state is not None:
+                path.append(current_state)
+                current_state = parent[current_state]
+            return path[::-1]
+        
+        for successor in get_successors(current_state):
+            if successor not in visited:
+                visited.add(successor)
+                parent[successor] = current_state
+                queue.append(successor)
+    return None
+initial_state = (3, 3, 'left', 0, 0)
+goal_state = (0, 0, 'right', 3, 3)
+solution = bfs(initial_state, goal_state)
+if solution:
+    print("Solution found:")
+    for step in solution:
+        print(step)
+else:
+    print("No solution found.")
