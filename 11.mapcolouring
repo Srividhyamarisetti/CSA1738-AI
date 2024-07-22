@@ -1,0 +1,48 @@
+def is_safe(graph, node, color, colors):
+    for neighbor in graph[node]:
+        if colors[neighbor] == color:
+            return False
+    return True
+
+def csp_backtracking(graph, colors, color_map, node):
+    if node == len(graph):
+        return True
+
+    for color in range(colors):
+        if is_safe(graph, node, color, color_map):
+            color_map[node] = color
+            if csp_backtracking(graph, colors, color_map, node + 1):
+                return True
+            color_map[node] = -1
+
+    return False
+
+def map_coloring(graph, colors):
+    color_map = [-1] * len(graph)
+    if csp_backtracking(graph, colors, color_map, 0):
+        return color_map
+    else:
+        return None
+
+
+graph = [
+    [1, 2, 3], 
+    [0, 2, 4], 
+    [0, 1, 3, 4], 
+    [0, 2, 4], 
+    [1, 2, 3]  
+]
+
+colors = 3 
+
+result = map_coloring(graph, colors)
+
+if result:
+    print(f"Color assignment: {result}")
+else:
+    print("No solution found")
+
+if result:
+    color_names = ["Red", "Green", "Blue"]
+    for node, color in enumerate(result):
+        print(f"Node {node} is colored {color_names[color]}")
