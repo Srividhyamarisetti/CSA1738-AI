@@ -1,0 +1,6 @@
+
+person(john,date(1990,5,15)).
+person(sarah,date(1985,8,20)).
+person(mike,date(1992,12,10)).
+
+dob(Name, DOB):- person(Name, DOB).
