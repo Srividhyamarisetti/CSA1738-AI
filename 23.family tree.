@@ -1,0 +1,6 @@
+parent(dob,alice).
+parent(dob,john).
+parent(alice,mary).
+parent(john,peter).
+ancestor(X,Y):-parent(X,Y).
+ancestor(X,Y):-parent(X,Z), ancestor(Z,Y).
