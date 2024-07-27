@@ -1,0 +1,11 @@
+studies(charlie,csa12).
+studies(lisa,uba04).
+studies(jennie,csa14).
+teaches(rakesh,csa06).
+teaches(jani,csa05).
+teaches(chinnu,csa34).
+
+professor(X,Y):-teaches(X,C),
+studies(Y,C).
+
+
