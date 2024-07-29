@@ -1,0 +1,3 @@
+bird(x):-has_feathers(X),lays_eggs(X).
+has_feathers(penguin).
+lays_eggs(penguin).
