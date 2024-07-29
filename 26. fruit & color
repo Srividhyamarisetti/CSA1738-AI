@@ -1,0 +1,7 @@
+fruit_color(apple,red).
+fruit_color(banana,yellow).
+fruit_color(grape,green).
+fruit_color(orange,orange).
+fruit_color(watermelon,green).
+fruit_color(mango,yellow).
+fruit_color(pineapple,yellow).
