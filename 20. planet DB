@@ -1,0 +1,33 @@
+% Facts about planets
+planet(mercury, terrestrial, 57.91, 4879).
+planet(venus, terrestrial, 108.2, 12104).
+planet(earth, terrestrial, 149.6, 12742).
+planet(mars, terrestrial, 227.9, 6779).
+planet(jupiter, gas_giant, 778.5, 139820).
+planet(saturn, gas_giant, 1434, 116460).
+planet(uranus, ice_giant, 2871, 50724).
+planet(neptune, ice_giant, 4495, 49244).
+
+% Rules to query the database
+
+% Find all terrestrial planets
+terrestrial_planet(X) :-
+    planet(X, terrestrial, _, _).
+
+% Find all gas giants
+gas_giant(X) :-
+    planet(X, gas_giant, _, _).
+
+% Find all ice giants
+ice_giant(X) :-
+    planet(X, ice_giant, _, _).
+
+% Find planets within a certain distance from the sun (in million km)
+planets_within_distance(D, X) :-
+    planet(X, _, Distance, _),
+    Distance =< D.
+
+% Find planets larger than a certain diameter (in km)
+planets_larger_than(Diameter, X) :-
+    planet(X, _, _, DiameterPlanet),
+    DiameterPlanet > Diameter.
